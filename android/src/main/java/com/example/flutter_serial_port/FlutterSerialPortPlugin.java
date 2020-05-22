@@ -56,6 +56,17 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
         }
       }
     }
+
+    public synchronized void  closeThread() {
+      try {
+        notify();//唤醒一个正在wait当前对象锁的线程，并让它拿到对象锁
+        if (isAlive()) {
+          interrupt();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   protected void onDataReceived(final byte[] buffer, final int size) {
@@ -165,6 +176,7 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
     if (mSerialPort != null) {
       mSerialPort.close();
       mSerialPort = null;
+      mReadThread.closeThread();
       return true;
     }
     return false;
