@@ -57,16 +57,16 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
       }
     }
 
-    public synchronized void  closeThread() {
-      try {
-        notify();//唤醒一个正在wait当前对象锁的线程，并让它拿到对象锁
-        if (isAlive()) {
-          interrupt();
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
+//    public synchronized void  closeThread() {
+//      try {
+//        notify();//唤醒一个正在wait当前对象锁的线程，并让它拿到对象锁
+//        if (isAlive()) {
+//          interrupt();
+//        }
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      }
+//    }
   }
 
   protected void onDataReceived(final byte[] buffer, final int size) {
@@ -123,6 +123,10 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
       Log.d(TAG, devicesPath.toString());
       result.success(devicesPath);
       break;
+      case "getThreadCount":
+        String threakCount = getThreadCount();
+        result.success(threakCount);
+        break;
     default:
       result.notImplemented();
       break;
@@ -147,6 +151,11 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
   private ArrayList<String> getAllDevicesPath() {
     ArrayList<String> devicesPath = new ArrayList<String>(Arrays.asList(mSerialPortFinder.getAllDevicesPath()));
     return devicesPath;
+  }
+
+  private String getThreadCount() {
+    int count = Thread.activeCount();
+    return Integer.toString(count);
   }
 
   private Boolean openDevice(String devicePath, int baudrate) {
@@ -176,7 +185,7 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
     if (mSerialPort != null) {
       mSerialPort.close();
       mSerialPort = null;
-      mReadThread.closeThread();
+      //mReadThread.closeThread();
       return true;
     }
     return false;

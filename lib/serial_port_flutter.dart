@@ -25,6 +25,11 @@ class FlutterSerialPort {
     return deviceList;
   }
 
+  static Future<String> getThreadCount() async {
+    String threadCount = await _channel.invokeMethod("getThreadCount");
+    return threadCount;
+  }
+
   /// Create an [SerialPort] instance
   static Future createSerialPort(Device device, int baudrate) async {
     return SerialPort(_channel.name, device, baudrate);
