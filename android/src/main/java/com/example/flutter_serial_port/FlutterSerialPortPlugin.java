@@ -153,9 +153,9 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
     return devicesPath;
   }
 
-  private String getThreadCount() {
+  private int getThreadCount() {
     int count = Thread.activeCount();
-    return Integer.toString(count);
+    return count;
   }
 
   private Boolean openDevice(String devicePath, int baudrate) {

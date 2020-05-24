@@ -25,8 +25,8 @@ class FlutterSerialPort {
     return deviceList;
   }
 
-  static Future<String> getThreadCount() async {
-    String threadCount = await _channel.invokeMethod("getThreadCount");
+  static Future<int> getThreadCount() async {
+    int threadCount = await _channel.invokeMethod("getThreadCount");
     return threadCount;
   }
 
