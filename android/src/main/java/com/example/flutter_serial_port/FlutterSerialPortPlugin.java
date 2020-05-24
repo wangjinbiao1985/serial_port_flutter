@@ -124,7 +124,7 @@ public class FlutterSerialPortPlugin implements MethodCallHandler, EventChannel.
       result.success(devicesPath);
       break;
       case "getThreadCount":
-        String threakCount = getThreadCount();
+        int threakCount = getThreadCount();
         result.success(threakCount);
         break;
     default:
